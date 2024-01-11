@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the text to be encrypted: ");
+        String originalText = scanner.nextLine();
+
+        System.out.print("Enter the shift value (key): ");
+        int shift = scanner.nextInt();
+
+        String encryptedText = encrypt(originalText, shift);
+
+        System.out.println("Encrypted Text: " + encryptedText);
+
+        //decrypt the text if needed
+        String decryptedText = decrypt(encryptedText, shift);
+        System.out.println("Decrypted Text: " + decryptedText);
+
+        scanner.close();
+    }
+
+    private static String encrypt(String text, int shift) {
+        StringBuilder encryptedText = new StringBuilder();
+
+        for (char ch : text.toCharArray()) {
+            if (Character.isLetter(ch)) {
+                char base = Character.isUpperCase(ch) ? 'A' : 'a';
+                encryptedText.append((char) ((ch - base + shift) % 26 + base));
+            } else {
+                encryptedText.append(ch);
+            }
+        }
+
+        return encryptedText.toString();
+    }
+
+    private static String decrypt(String text, int shift) {
+        // Decryption is the same as encryption with a negative shift
+        return encrypt(text, -shift);
+    }
+}
